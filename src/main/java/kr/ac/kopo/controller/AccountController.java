@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.ac.kopo.account.service.AccountService;
 import kr.ac.kopo.account.vo.AccountVO;
 
 @Controller
 public class AccountController {
+
     @Autowired
     private AccountService accountService;
 
@@ -37,9 +39,6 @@ public class AccountController {
     public String accountRegister(@ModelAttribute AccountVO account, Model model) {
         try {
             AccountVO accountRegisterVO = accountService.accountRegister(account);
-            System.out.println(account);
-            String customerId = account.getCustomer_id();
-            System.out.println(customerId);
             if (accountRegisterVO != null) {
                 model.addAttribute("registerSuccess", true);
             } else {
@@ -50,5 +49,26 @@ public class AccountController {
             model.addAttribute("registerFailure", true);
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/deposit")
+    public String depositForm() {
+        return "account/deposit";
+    }
+
+    @PostMapping("/deposit")
+    public String deposit(@RequestParam("account_num") String accountNum, @RequestParam("amount") int amount, Model model) {
+        try {
+            boolean success = accountService.deposit(accountNum, amount);
+            if (success) {
+                model.addAttribute("depositSuccess", true);
+            } else {
+                model.addAttribute("depositFailure", true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("depositFailure", true);
+        }
+        return "account/deposit";
     }
 }

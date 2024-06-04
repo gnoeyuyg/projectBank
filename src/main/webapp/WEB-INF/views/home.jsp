@@ -70,10 +70,10 @@
                     </div>
                 	<div class="col-lg-4 mb-5 mb-lg-0">
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-star"></i></div>
-                        <h2 class="h4 fw-bolder">계좌이체</h2>
-                        <p>계좌이체하기</p>
+                        <h2 class="h4 fw-bolder">거래하기</h2>
+                        <p>빠른 업무를 보고 싶으시다면?</p>
                         <a class="text-decoration-none" href="${ pageContext.request.contextPath }/transfer">
-                            빠른 계좌이체
+                            업무 보러가기!!
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
