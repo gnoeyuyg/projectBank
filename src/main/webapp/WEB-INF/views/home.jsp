@@ -26,8 +26,8 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">메인페이지</a></li>
                         <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/mypage">마이페이지</a></li>
                         <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/myaccount">내 계좌</a></li>
-                        <li class="nav-item"><a class="nav-link" href="account.jsp">계좌 개설</a></li>
-                        <li class="nav-item"><a class="nav-link" href="savings.jsp">적금</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/accountRegister">계좌 개설</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/savingsAccountRegister">적금</a></li>
                         <li class="nav-item"><a class="nav-link" href="loans.jsp">대출</a></li>
                     </ul>
                 </div>
@@ -90,7 +90,7 @@
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-building"></i></div>
                         <h2 class="h4 fw-bolder">적금</h2>
                         <p>더 나은 미래를 위한 적금 생활 JW은행의 좋은 상품과 함께 시작해보세요!</p>
-                        <a class="text-decoration-none" href="savings.jsp">
+                        <a class="text-decoration-none" href="${ pageContext.request.contextPath }/savingsAccountRegister">
                             적금 하러가기!!
                             <i class="bi bi-arrow-right"></i>
                         </a>

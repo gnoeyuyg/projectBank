@@ -5,4 +5,6 @@ import kr.ac.kopo.account.vo.AccountVO;
 public interface AccountService {
     AccountVO accountRegister(AccountVO account);
     boolean deposit(String accountNum, int amount);
+
+    
 }

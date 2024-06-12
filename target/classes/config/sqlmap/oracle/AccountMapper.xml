@@ -30,10 +30,12 @@
         WHERE account_num = #{account_num}
     </update>
 
-	 <!-- 입금 처리 (계좌 잔액 업데이트) -->
+    <!-- 입금 처리 (계좌 잔액 업데이트) -->
     <update id="deposit" parameterType="map">
         UPDATE account
         SET account_money = account_money + #{amount}
         WHERE account_num = #{account_num}
     </update>
+
+    
 </mapper>

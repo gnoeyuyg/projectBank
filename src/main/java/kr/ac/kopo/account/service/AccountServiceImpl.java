@@ -2,7 +2,6 @@ package kr.ac.kopo.account.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import kr.ac.kopo.account.dao.AccountDAO;
 import kr.ac.kopo.account.vo.AccountVO;
 
@@ -29,7 +28,7 @@ public class AccountServiceImpl implements AccountService {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 }

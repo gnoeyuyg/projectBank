@@ -65,6 +65,8 @@
         <label for="amount">이체 금액:</label>
         <input type="number" id="amount" name="amount" required><br><br>
         
+        <label for="depositor_name">입금자명:</label>
+        <input type="text" id="depositorName" name="depositorName" required><br><br>
         <button type="submit">이체</button>
     </form>
 </body>

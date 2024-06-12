@@ -19,4 +19,5 @@ public class TransactionDAOImpl implements TransactionDAO {
     public void increaseBalance(TransactionVO transaction) throws Exception {
         sqlSession.update("dao.TransferDAO.increaseBalance", transaction);
     }
+
 }
