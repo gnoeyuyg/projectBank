@@ -33,6 +33,6 @@
     <!-- 적금 계좌 조회 SQL 문 -->
     <select id="findSavingsAccountByNumber" resultType="kr.ac.kopo.savings.vo.SavingsAccountVO">
         SELECT * FROM Installment_savings
-        WHERE Installment_savings = #{savings_account_num}
+        WHERE savings_account_num = #{savings_account_num}
     </select>
 </mapper>

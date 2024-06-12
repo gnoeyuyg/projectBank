@@ -23,4 +23,9 @@
         INSERT INTO TRANSACTION_DETAILS (from_account, to_account, depositor_name, amount)
         VALUES (#{from_Account}, #{to_Account}, #{depositorName}, #{amount})
     </insert>
+    
+    <!-- 계좌번호로 계좌 정보 조회 -->
+    <select id="getAccountByAccountNum" parameterType="string" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM account WHERE account_NUM = #{accountNum}
+    </select>
 </mapper>

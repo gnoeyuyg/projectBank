@@ -16,6 +16,45 @@
 <head>
 <meta charset="UTF-8">
 <title>계좌 이체</title>
+<script>
+    // transfer.js (or wherever your JavaScript code resides)
+
+    function checkAccountPassword(accountNum, accountPassword) {
+        fetch('${pageContext.request.contextPath}/checkAccountPassword', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ accountNum: accountNum, accountPassword: accountPassword })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.valid) {
+                // 계좌 비밀번호 일치 시 이체 처리
+                // 이 곳에 이체 처리 로직 추가
+            } else {
+                // 계좌 비밀번호 불일치 시 처리
+                alert('보내는 계좌의 비밀번호가 일치하지 않습니다.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    // 이체 버튼 클릭 이벤트 핸들러
+    document.getElementById('transferButton').addEventListener('click', function() {
+        var fromAccount = document.getElementById('from_Account').value;
+        var toAccount = document.getElementById('to_Account').value;
+        var amount = document.getElementById('amount').value;
+        var depositorName = document.getElementById('depositorName').value;
+        var fromAccountPassword = document.getElementById('from_Account_Password').value;
+
+        // 보내는 계좌의 비밀번호 확인
+        checkAccountPassword(fromAccount, fromAccountPassword);
+    });
+</script>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -58,6 +97,9 @@
     <form action="${pageContext.request.contextPath}/transfer" method="post" enctype="application/x-www-form-urlencoded">
         <label for="fromAccount">보내는 계좌:</label>
         <input type="text" id="from_Account" name="from_Account" required><br><br>
+        
+        <label for="fromAccountPassword">보내는 계좌 비밀번호:</label>
+		<input type="password" id="from_Account_Password" name="from_Account_Password" required><br><br>
         
         <label for="toAccount">받는 계좌:</label>
         <input type="text" id="to_Account" name="to_Account" required><br><br>
