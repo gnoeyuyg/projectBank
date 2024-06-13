@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
+import kr.ac.kopo.account.service.AccountService;
 import kr.ac.kopo.manager.service.ManagerService;
 import kr.ac.kopo.manager.vo.ManagerVO;
 
@@ -18,6 +20,9 @@ public class ManagerController {
     @Autowired
     private ManagerService managerService;
 
+    @Autowired
+    private AccountService accountService;
+   
     @GetMapping("/managerLogin")
     public String loginForm(Model model) {
         ManagerVO manager = new ManagerVO();
@@ -38,9 +43,20 @@ public class ManagerController {
         }
     }
 
-    // 새로운 매핑 추가
     @GetMapping("/manager/managerHome")
     public String home() {
         return "manager/managerHome";
+    }
+
+    @GetMapping("/manager/logout")
+    public String logout(SessionStatus status) {
+        status.setComplete();
+        return "redirect:/";
+    }
+    
+    @GetMapping("/manager/listAccounts")
+    public String listAccounts(Model model) {
+        model.addAttribute("accounts", accountService.getAllAccounts());
+        return "manager/listAccounts";
     }
 }

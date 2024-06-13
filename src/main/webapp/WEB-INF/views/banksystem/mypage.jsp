@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%String memberId = (String) session.getAttribute("memberId");%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +25,33 @@
                 </div>
             </div>
      </nav>
+     <div class="container my-5">
+    <h2>마이페이지</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>아이디</th>
+            <td>${member.customer_id}</td>
+        </tr>
+        <tr>
+            <th>이름</th>
+            <td>${member.customer_name}</td>
+        </tr>
+        <tr>
+            <th>이메일</th>
+            <td>${member.email}</td>
+        </tr>
+        <tr>
+            <th>전화번호</th>
+            <td>${member.phone_number}</td>
+        </tr>
+        <tr>
+            <th>주소</th>
+            <td>${member.address}</td>
+        </tr>
+    </table>
+    <a href="${ pageContext.request.contextPath }/member/update" class="btn btn-primary">수정하기</a>
+    <a href="${ pageContext.request.contextPath }/deleteAccount" class="btn btn-primary">회원탈퇴하기</a>
+</div>
      
 
 </body>

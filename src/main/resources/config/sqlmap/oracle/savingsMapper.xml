@@ -10,17 +10,10 @@
         FROM Installment_savings
     </select>
 
-    <!-- 적금 계좌 업데이트 -->
-    <update id="updateSavingsAccount" parameterType="kr.ac.kopo.savings.vo.SavingsAccountVO">
-        UPDATE Installment_savings
-        SET amount = #{amount}
-        WHERE savings_account_num = #{savingsAccountNum}
-    </update>
-    
-	<!-- 적금 계좌 개설 SQL 문 -->
+    <!-- 적금 계좌 개설 SQL 문 -->
     <insert id="savingsAccountRegister" parameterType="kr.ac.kopo.savings.vo.SavingsAccountVO">
-        INSERT INTO Installment_savings (savings_account_num,customer_id, account_holder,savings_account_password, deposit_type, amount)
-        VALUES (#{savings_account_num},#{customer_id}, #{account_holder},#{savings_account_password}, #{deposit_type}, #{amount})
+        INSERT INTO Installment_savings (savings_account_num, customer_id, account_holder, savings_account_password, deposit_type, amount)
+        VALUES (#{savings_account_num}, #{customer_id}, #{account_holder}, #{savings_account_password}, #{deposit_type}, #{amount})
     </insert>
 
     <!-- 적금 입금 SQL 문 -->
@@ -35,4 +28,16 @@
         SELECT * FROM Installment_savings
         WHERE savings_account_num = #{savings_account_num}
     </select>
+
+    <!-- 적금 계좌 업데이트 SQL 문 -->
+    <update id="updateSavingsAccount" parameterType="kr.ac.kopo.savings.vo.SavingsAccountVO">
+        UPDATE Installment_savings
+        SET amount = #{amount}, interest_rate = #{interest_rate}, deposit_type = #{deposit_type}
+        WHERE savings_account_num = #{savings_account_num}
+    </update>
+
+    <!-- 적금 계좌 삭제 SQL 문 -->
+    <delete id="deleteSavings" parameterType="String">
+        DELETE FROM Installment_savings WHERE deposit_type = #{deposit_type}
+    </delete>
 </mapper>

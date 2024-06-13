@@ -1,26 +1,29 @@
 package kr.ac.kopo.account.dao;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import kr.ac.kopo.account.vo.AccountVO;
+import kr.ac.kopo.transactiondetail.vo.TransactionDetailVO;
 
 @Repository
 public class AccountDAOImpl implements AccountDAO {
-
-    @Autowired
-    private SqlSessionTemplate sqlSession;
-
-    @Override
-    public void accountRegister(AccountVO account) throws Exception {
-        sqlSession.insert("dao.AccountDAO.accountRegister", account);
-    }
-
-    @Override
+	
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+	
+	@Override
+	public void accountRegister(AccountVO account) throws Exception{
+		 sqlSession.insert("dao.AccountDAO.accountRegister", account);
+		
+	}
+	
+	@Override
     public AccountVO findAccountByNumber(String accountNum) throws Exception {
         return sqlSession.selectOne("dao.AccountDAO.findAccountByNumber", accountNum);
     }
@@ -37,6 +40,30 @@ public class AccountDAOImpl implements AccountDAO {
         params.put("amount", amount);
         sqlSession.update("dao.AccountDAO.deposit", params);
     }
+	
+	 @Override
+	    public AccountVO findById(String accountId) {
+	        return sqlSession.selectOne("dao.AccountDAO.findById", accountId);
+	    }
 
-   
+	    @Override
+	    public void update(AccountVO account) {
+	        sqlSession.update("dao.AccountDAO.update", account);
+	    }
+	    
+	    @Override
+	    public List<AccountVO> getAllAccounts() {
+	        return sqlSession.selectList("dao.AccountDAO.getAllAccounts");
+	    }
+
+	    @Override
+	    public AccountVO getAccountById(String accountId) {
+	        return sqlSession.selectOne("dao.AccountDAO.getAccountById", accountId);
+	    }
+
+	    @Override
+	    public List<TransactionDetailVO> getTransactionsByAccountId(String accountId) {
+	        return sqlSession.selectList("dao.AccountDAO.getTransactionsByAccountId", accountId);
+	    }
+
 }

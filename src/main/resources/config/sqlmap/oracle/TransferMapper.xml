@@ -18,7 +18,7 @@
         WHERE account_NUM = #{to_Account}
     </update>
     
-	<!-- 트랜잭션 로그 저장 -->
+    <!-- 트랜잭션 로그 저장 -->
     <insert id="saveTransaction" parameterType="kr.ac.kopo.transaction.vo.TransactionVO">
         INSERT INTO TRANSACTION_DETAILS (from_account, to_account, depositor_name, amount)
         VALUES (#{from_Account}, #{to_Account}, #{depositorName}, #{amount})
@@ -28,4 +28,5 @@
     <select id="getAccountByAccountNum" parameterType="string" resultType="kr.ac.kopo.account.vo.AccountVO">
         SELECT * FROM account WHERE account_NUM = #{accountNum}
     </select>
+
 </mapper>

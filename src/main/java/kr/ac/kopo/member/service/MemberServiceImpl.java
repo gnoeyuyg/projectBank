@@ -21,4 +21,25 @@ public class MemberServiceImpl implements MemberService {
     public void signUp(MemberVO member) throws Exception {
         memberDao.signUp(member);
     }
+    
+    @Override
+    public MemberVO getMemberById(String id) throws Exception {
+    	System.out.println("service");
+        return memberDao.getMemberById(id);
+    }
+
+    @Override
+    public void updateMember(MemberVO member) throws Exception {
+        memberDao.updateMember(member);
+    }
+    
+    @Override
+    public boolean deleteAccount(String userId, String password) {
+        MemberVO user = memberDao.findById(userId);
+        if (user != null && user.getPassword().equals(password)) {
+        	memberDao.delete(userId);
+            return true;
+        }
+        return false;
+    }
 }

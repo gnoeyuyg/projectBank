@@ -15,7 +15,6 @@ public class SavingsAccountServiceImpl implements SavingsAccountService {
     @Autowired
     private SavingsAccountDAO savingsAccountDAO;
 
-    // 한달마다
     @Scheduled(cron = "0 0 0 1 * ?")
     @Transactional
     @Override
@@ -23,24 +22,20 @@ public class SavingsAccountServiceImpl implements SavingsAccountService {
         try {
             List<SavingsAccountVO> savingsAccounts = savingsAccountDAO.findAllSavingsAccounts();
             for (SavingsAccountVO account : savingsAccounts) {
-                double newBalance = calculateNewBalance(account);
+                double dailyInterestRate = account.getInterest_rate() / 365;
+                double newBalance = account.getAmount() * (1 + dailyInterestRate);
                 account.setAmount(newBalance);
-                savingsAccountDAO.updateSavingsAccount(account);
+                savingsAccountDAO.updateSavings(account);
             }
         } catch (Exception e) {
-            // 예외 처리: 롤백
             throw new RuntimeException("적금 계좌 이자 적용 중 오류 발생: " + e.getMessage(), e);
         }
     }
 
-    private double calculateNewBalance(SavingsAccountVO account) {
-        double dailyInterestRate = account.getInterest_rate() / 365;
-        return account.getAmount() * (1 + dailyInterestRate);
-    }
     @Override
     public SavingsAccountVO savingsAccountRegister(SavingsAccountVO savingsAccount) {
         try {
-        	savingsAccountDAO.savingsAccountRegister(savingsAccount);
+            savingsAccountDAO.savingsAccountRegister(savingsAccount);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,11 +45,88 @@ public class SavingsAccountServiceImpl implements SavingsAccountService {
     @Override
     public boolean savingsDeposit(String savingsAccountNum, int amount) {
         try {
-        	savingsAccountDAO.savingsDeposit(savingsAccountNum, amount);
+            savingsAccountDAO.savingsDeposit(savingsAccountNum, amount);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public void updateSavingsAccount(SavingsAccountVO savingsAccount) {
+        try {
+            savingsAccountDAO.updateSavings(savingsAccount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteSavingsAccountByType(String depositType) {
+        try {
+            savingsAccountDAO.deleteSavings(depositType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<SavingsAccountVO> findAllSavingsAccounts() {
+        try {
+            return savingsAccountDAO.findAllSavingsAccounts();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public SavingsAccountVO findSavingsAccountByNumber(String savingsAccountNum) {
+        try {
+            return savingsAccountDAO.findSavingsAccountByNumber(savingsAccountNum);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // 적금 상품 CRUD 메소드
+    @Override
+    public SavingsAccountVO createSavings(SavingsAccountVO savingsAccount) {
+        try {
+            savingsAccountDAO.createSavings(savingsAccount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return savingsAccount;
+    }
+
+    @Override
+    public SavingsAccountVO readSavings(String savingsAccountNum) {
+        try {
+            return savingsAccountDAO.readSavings(savingsAccountNum);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void updateSavings(SavingsAccountVO savingsAccount) {
+        try {
+            savingsAccountDAO.updateSavings(savingsAccount);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteSavings(String depositType) {
+        try {
+            savingsAccountDAO.deleteSavings(depositType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

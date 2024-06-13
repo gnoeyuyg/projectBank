@@ -86,7 +86,7 @@
       <a href="${ pageContext.request.contextPath }/deposit"><i class="fa-solid fa-cat"></i>입금</a>
     </li>
     <li>
-      <a href="#">출금</a>
+      <a href="${ pageContext.request.contextPath }/withdrawal">출금</a>
     </li>
   </ul>
 </aside>

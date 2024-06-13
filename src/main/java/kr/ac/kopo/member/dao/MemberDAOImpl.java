@@ -25,8 +25,30 @@ public class MemberDAOImpl implements MemberDAO {
         sqlSession.insert("dao.MemberDAO.signUp", member);
     }
     
+    @Override
+    public MemberVO getMemberById(String id) throws Exception {
+    	System.out.println(id + "dao1");
+    	MemberVO m = sqlSession.selectOne("dao.MemberDAO.getMemberById", id);
+    	System.out.println(m + "dao");
+        return sqlSession.selectOne("dao.MemberDAO.getMemberById", id);
+    }
+
+    @Override
+    public void updateMember(MemberVO member) throws Exception {
+        sqlSession.update("dao.MemberDAO.updateMember", member);
+    }
+    
     @Transactional
 	public int update_mypage(MemberVO member) throws Exception{
 		return sqlSession.update("member.update_mypage", member);
 	}
+    
+    public MemberVO findById(String userId) {
+        return sqlSession.selectOne("dao.MemberDAO.findById", userId);
+    }
+
+    @Override
+    public void delete(String userId) {
+        sqlSession.delete("dao.MemberDAO.delete", userId);
+    }
 }

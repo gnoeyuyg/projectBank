@@ -8,4 +8,9 @@
         SELECT * FROM managerAccount
         WHERE id = #{id} AND password = #{password}
     </select>
+    
+    <!-- 회원 정보 조회 -->
+    <select id="getAllAccounts" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM account
+    </select>
 </mapper>

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dao.AccountDAO">
 
     <!-- 계좌 등록 -->
     <insert id="accountRegister" parameterType="kr.ac.kopo.account.vo.AccountVO">
-        INSERT INTO account (account_num, customer_id, name, account_password, account_money, open_date, bank_code)
-        VALUES (#{account_num}, #{customer_id}, #{name}, #{account_password}, #{account_money}, #{open_date}, #{bank_code})
+        INSERT INTO ACCOUNT (account_num, customer_id, name, account_password)
+        VALUES (#{account_num}, #{customer_id}, #{name}, #{account_password})
     </insert>
-
+    
     <!-- 계좌 번호로 계좌 조회 -->
     <select id="findAccountByNumber" parameterType="String" resultType="kr.ac.kopo.account.vo.AccountVO">
         SELECT account_num, customer_id, name, account_password, account_money, open_date, bank_code
@@ -36,6 +35,33 @@
         SET account_money = account_money + #{amount}
         WHERE account_num = #{account_num}
     </update>
-
     
+    <select id="findById" parameterType="string" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT WHERE account_num = #{account_num}
+    </select>
+
+    <update id="update" parameterType="kr.ac.kopo.account.vo.AccountVO">
+        UPDATE ACCOUNT
+        SET account_money = #{account_money}, account_password = #{account_password} -- 필요한 다른 필드도 추가하세요
+        WHERE account_num = #{account_num}
+    </update>
+    
+    <select id="getAllAccounts" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM account
+    </select>
+
+    <select id="getAccountById" parameterType="string" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM account WHERE account_num = #{account_num}
+    </select>
+
+    <select id="getTransactionsByAccountId" parameterType="string" resultType="kr.ac.kopo.transactiondetail.vo.TransactionDetailVO">
+        SELECT transaction_id AS transactionId,
+           account_num AS accountNum,
+           amount,
+           transaction_date AS transactionDate,
+           depositor_name AS depositorName,
+           to_account AS toAccount,
+           from_account AS fromAccount FROM Transaction_details WHERE account_num = #{account_num}
+    </select>
+
 </mapper>

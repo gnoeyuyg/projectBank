@@ -28,10 +28,10 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">메인페이지</a></li>
                         <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/mypage">마이페이지</a></li>
-                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/myaccount">내 계좌</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/accounts">내 계좌</a></li>
                         <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/accountRegister">계좌 개설</a></li>
                         <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/savingsAccountRegister">적금</a></li>
-                        <li class="nav-item"><a class="nav-link" href="loans.jsp">대출</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/loan/apply">대출</a></li>
                     </ul>
                 </div>
             </div>
@@ -45,15 +45,13 @@
                             <h1 class="display-5 fw-bolder text-white mb-2">JW은행에 돈을 바쳐라 다 내꺼</h1>
                             <p class="lead text-white-50 mb-4">인터넷 뱅킹은 JW은행과 함께 하세요!!</p>
                             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                            	<c:if test='${ userVO.customer_id != "admin" }'>
-                                <c:if test="${ empty userVO }">
+                            <c:if test="${ empty userVO }">
                                 <a class="btn btn-primary btn-lg px-4 me-sm-3" href="login">로그인</a>
-                                <a class="btn btn-outline-light btn-lg px-4" href="${ pageContext.request.contextPath }/signup">회원가입</a>
                                 </c:if>
                                 <c:if test="${ not empty userVO }">
-									<a class="btn btn-primary btn-lg px-4 me-sm-3" href="logout">로그아웃</a>
-								</c:if>
-								</c:if>
+                           <a class="btn btn-primary btn-lg px-4 me-sm-3" href="logout">로그아웃</a>
+                        </c:if>
+                                <a class="btn btn-outline-light btn-lg px-4" href="${ pageContext.request.contextPath }/signup">회원가입</a>
                             </div>
                         </div>
                     </div>
@@ -73,12 +71,21 @@
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
-                	<div class="col-lg-4 mb-5 mb-lg-0">
+                    <div class="col-lg-4 mb-5 mb-lg-0">
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-star"></i></div>
-                        <h2 class="h4 fw-bolder">거래하기</h2>
-                        <p>빠른 업무를 보고 싶으시다면?</p>
+                        <h2 class="h4 fw-bolder">내 계좌</h2>
+                        <p>고객님 어서오세요!</p>
+                        <a class="text-decoration-none" href="${ pageContext.request.contextPath }/accounts">
+                            내 계좌 확인하러 가기!
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                   <div class="col-lg-4 mb-5 mb-lg-0">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi-wifi"></i></div>
+                        <h2 class="h4 fw-bolder">계좌이체</h2>
+                        <p>계좌이체하기</p>
                         <a class="text-decoration-none" href="${ pageContext.request.contextPath }/transfer">
-                            업무 보러가기!!
+                            빠른 계좌이체
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
@@ -104,7 +111,7 @@
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
                         <h2 class="h4 fw-bolder">대출</h2>
                         <p>JW은행이 당신의 희망을 이루도록 돕겠습니다! JW은행에 대출 상품을 확인해보세요!</p>
-                        <a class="text-decoration-none" href="#!">
+                        <a class="text-decoration-none" href="${ pageContext.request.contextPath }/loan/apply">
                             대출 하러가기!!
                             <i class="bi bi-arrow-right"></i>
                         </a>

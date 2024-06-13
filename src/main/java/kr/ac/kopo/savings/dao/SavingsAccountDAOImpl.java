@@ -21,11 +21,6 @@ public class SavingsAccountDAOImpl implements SavingsAccountDAO {
     }
 
     @Override
-    public void updateSavingsAccount(SavingsAccountVO account) throws Exception {
-        sqlSession.update("dao.SavingsAccountDAO.updateSavingsAccount", account);
-        
-    }
-    @Override
     public void savingsAccountRegister(SavingsAccountVO savingsAccount) throws Exception {
         sqlSession.insert("dao.SavingsAccountDAO.savingsAccountRegister", savingsAccount);
     }
@@ -39,7 +34,36 @@ public class SavingsAccountDAOImpl implements SavingsAccountDAO {
     }
 
     @Override
-    public SavingsAccountVO findSavingsAccountByNumber(String savingsAccountNum) throws Exception {
+    public void createSavings(SavingsAccountVO account) throws Exception {
+        sqlSession.insert("dao.SavingsAccountDAO.createSavings", account);
+    }
+
+    @Override
+    public SavingsAccountVO readSavings(String savingsAccountNum) throws Exception {
         return sqlSession.selectOne("dao.SavingsAccountDAO.findSavingsAccountByNumber", savingsAccountNum);
     }
+
+    @Override
+    public void updateSavings(SavingsAccountVO account) throws Exception {
+        sqlSession.update("dao.SavingsAccountDAO.updateSavingsAccount", account);
+    }
+
+    @Override
+    public void deleteSavings(String depositType) throws Exception {
+        sqlSession.delete("dao.SavingsAccountDAO.deleteSavings", depositType);
+    }
+
+    @Override
+    public void applyInterest(SavingsAccountVO account) throws Exception {
+        double dailyInterestRate = account.getInterest_rate() / 365;
+        double newBalance = account.getAmount() * (1 + dailyInterestRate);
+        account.setAmount(newBalance);
+        sqlSession.update("dao.SavingsAccountDAO.updateSavingsAccount", account);
+    }
+
+	@Override
+	public SavingsAccountVO findSavingsAccountByNumber(String savingsAccountNum) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
