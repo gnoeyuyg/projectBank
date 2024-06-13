@@ -44,7 +44,7 @@ public class MemberController {
 		} else {
 			// 로그인 성공
 			model.addAttribute("userVO", loginVO);
-			return "redirect:/"; 
+			return "redirect:/";
 		}
 	}
 	

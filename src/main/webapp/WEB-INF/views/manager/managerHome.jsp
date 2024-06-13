@@ -20,9 +20,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container px-5">
                 <a class="navbar-brand" href="#!">JW은행</a>
-                <div>
                 <a class="navbar-brand" href="${ pageContext.request.contextPath }/managerLogin">관리자 로그인</a>
-                </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -45,7 +43,7 @@
                             <h1 class="display-5 fw-bolder text-white mb-2">JW은행에 돈을 바쳐라 다 내꺼</h1>
                             <p class="lead text-white-50 mb-4">인터넷 뱅킹은 JW은행과 함께 하세요!!</p>
                             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                            	<c:if test='${ userVO.customer_id != "admin" }'>
+                            	<%-- <c:if test='${ userVO.id != "admin" }'> --%>
                                 <c:if test="${ empty userVO }">
                                 <a class="btn btn-primary btn-lg px-4 me-sm-3" href="login">로그인</a>
                                 <a class="btn btn-outline-light btn-lg px-4" href="${ pageContext.request.contextPath }/signup">회원가입</a>
@@ -53,7 +51,7 @@
                                 <c:if test="${ not empty userVO }">
 									<a class="btn btn-primary btn-lg px-4 me-sm-3" href="logout">로그아웃</a>
 								</c:if>
-								</c:if>
+								<%-- </c:if> --%>
                             </div>
                         </div>
                     </div>
@@ -120,7 +118,7 @@
             <!-- Existing table content -->
             <td align="right">
                 <c:if test="${not empty userVO}">
-                    [${userVO.customer_id} 님으로 로그인중....]
+                    [${userVO.id} 님으로 로그인중....]
                 </c:if>
                 <c:if test="${empty userVO}">
                     [로그인이 필요합니다.]
