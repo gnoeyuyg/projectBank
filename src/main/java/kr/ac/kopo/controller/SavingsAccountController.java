@@ -34,9 +34,9 @@ public class SavingsAccountController {
     }
 
     @PostMapping("/savingsDeposit")
-    public String savingsDeposit(@RequestParam("savingsAccountNum") String savingsAccountNum, @RequestParam("amount") int amount, Model model) {
+    public String savingsDeposit(@RequestParam("savingAccountNum") String savingAccountNum, @RequestParam("amount") int amount, Model model) {
         try {
-            boolean success = savingsAccountService.savingsDeposit(savingsAccountNum, amount);
+            boolean success = savingsAccountService.savingsDeposit(savingAccountNum, amount);
             if (success) {
                 model.addAttribute("depositSuccess", true);
             } else {
@@ -48,13 +48,11 @@ public class SavingsAccountController {
         }
         return "savings/savingsDeposit";
     }
-
     @GetMapping("/savingsAccountRegister")
     public String savingsAccountRegisterForm() {
         return "savings/savingsAccountRegister";
     }
-
-    // 적금 상품 CRUD 페이지
+ // 적금 상품 CRUD 페이지
     @GetMapping("/manager/updateFI")
     public String updateFI() {
         return "manager/updateFI";

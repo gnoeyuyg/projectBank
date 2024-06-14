@@ -1,7 +1,6 @@
 package kr.ac.kopo.savings.service;
 
 import kr.ac.kopo.savings.vo.SavingsAccountVO;
-
 import java.util.List;
 
 public interface SavingsAccountService {

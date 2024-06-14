@@ -51,6 +51,7 @@ public class TransactionController {
     @PostMapping("/transfer")
     public String transfer(@ModelAttribute TransactionVO transaction) throws Exception {
         transactionService.transfer(transaction);
+        
         return "redirect:/";
     }
 
@@ -59,4 +60,6 @@ public class TransactionController {
     	System.out.println("GET request to /transfer received.");
         return "account/transfer";  // 여기에 GET 요청이 도달하면 반환할 JSP 페이지 이름을 입력합니다.
     }
+    
+    
 }

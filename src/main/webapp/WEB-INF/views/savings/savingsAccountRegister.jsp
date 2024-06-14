@@ -18,6 +18,54 @@
     <meta charset="UTF-8">
     <title>적금 가입</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+    <script>
+        // 비밀번호 유효성을 검사하는 함수
+        async function checkSavingsPasswordValidity(savingsPassword) {
+            try {
+                const response = await fetch('${pageContext.request.contextPath}/checkSavingsPassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ savingsPassword: savingsPassword })
+                });
+                const result = await response.json();
+                if (result.valid) {
+                    document.getElementById('passwordMessage').textContent = '비밀번호가 유효합니다.';
+                    document.getElementById('passwordMessage').style.color = 'green';
+                } else {
+                    document.getElementById('passwordMessage').textContent = '비밀번호가 유효하지 않습니다.';
+                    document.getElementById('passwordMessage').style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // 비밀번호 입력 필드에 이벤트 리스너 추가
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInput = document.getElementById('savings_account_password');
+            passwordInput.addEventListener('input', () => {
+                const savingsPassword = passwordInput.value;
+                if (savingsPassword.length === 6) {
+                    checkSavingsPasswordValidity(savingsPassword);
+                } else {
+                    document.getElementById('passwordMessage').textContent = '숫자 6자리로 입력해주세요.';
+                    document.getElementById('passwordMessage').style.color = 'red';
+                }
+            });
+        });
+
+        // 약관 동의 체크 확인
+        function validateForm() {
+            const termsCheckbox = document.getElementById('terms');
+            if (!termsCheckbox.checked) {
+                alert('약관에 동의하셔야 적금 가입이 가능합니다.');
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -51,28 +99,25 @@
 
     <div>
         <label for="customer_id">고객 ID:</label>
-        <!-- 세션에서 가져온 고객 ID를 입력 필드에 자동으로 채워넣기 -->
         <input type="text" id="customer_id" name="customer_id" value="<%= customerId %>" required readonly>
     </div>
 
     <div>
         <label for="account_holder">계좌명:</label>
-        <!-- 계좌명 입력 필드를 비활성화 -->
         <input type="text" id="account_holder" name="account_holder">
     </div>
    
     <div>
         <label for="savings_account_password">계좌 비밀번호:</label> 
         <input type="password" id="savings_account_password" name="savings_account_password" required pattern="[0-9]{6}" title="숫자 6자리로 입력해주세요."> [6자리 숫자]
+        <span id="passwordMessage" style="color: red;"></span>
     </div>
     <div>
         <label for="confirm_password">비밀번호 확인:</label> 
         <input type="password" id="confirm_password" name="confirm_password" required pattern="[0-9]{6}" title="숫자 6자리로 입력해주세요."> [6자리 숫자]
-        <span id="passwordMatchMessage" style="color: red;"></span>
     </div>
  	<div>
     	<label for="deposit_type">상품 종류:</label>
-    	<!-- 상품이 한 개 뿐이므로 상품 고정 -->
     	<input type="text" id="deposit_type" name="deposit_type" value="희망 적금" required readonly>
     </div>
     <div>
@@ -94,54 +139,5 @@
     </div>
         <button type="submit">가입하기</button><br>
 </form>
-
-<script>
-        // 비밀번호 유효성을 검사하는 함수
-        async function checkPasswordValidity(savings_password) {
-            try {
-                const response = await fetch('${pageContext.request.contextPath}/checkPassword', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ password: password })
-                });
-                const result = await response.json();
-                if (result.valid) {
-                    document.getElementById('passwordMessage').textContent = '비밀번호가 유효합니다.';
-                    document.getElementById('passwordMessage').style.color = 'green';
-                } else {
-                    document.getElementById('passwordMessage').textContent = '비밀번호가 유효하지 않습니다.';
-                    document.getElementById('passwordMessage').style.color = 'red';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        // 비밀번호 입력 필드에 이벤트 리스너 추가
-        document.addEventListener('DOMContentLoaded', () => {
-            const passwordInput = document.getElementById('savings_account_password');
-            passwordInput.addEventListener('input', () => {
-                const password = passwordInput.value;
-                if (password.length === 6) {
-                    checkPasswordValidity(password);
-                } else {
-                    document.getElementById('passwordMessage').textContent = '숫자 6자리로 입력해주세요.';
-                    document.getElementById('passwordMessage').style.color = 'red';
-                }
-            });
-        });
-
-        // 약관 동의 체크 확인
-        function validateForm() {
-            const termsCheckbox = document.getElementById('terms');
-            if (!termsCheckbox.checked) {
-                alert('약관에 동의하셔야 계좌를 개설할 수 있습니다.');
-                return false;
-            }
-            return true;
-        }
-    </script>
 </body>
 </html>

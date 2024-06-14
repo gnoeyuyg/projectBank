@@ -5,3 +5,4 @@ import kr.ac.kopo.manager.vo.ManagerVO;
 public interface ManagerDAO {
     ManagerVO login(ManagerVO manager) throws Exception;
 }
+

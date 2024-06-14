@@ -9,11 +9,15 @@
         <meta name="author" content="" />
         <title>JW은행</title>
         
-        
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/CSS/home.css">
+        <style>
+            .hidden-link {
+                color: #343a40; /* 배경색과 동일한 색상으로 설정 */
+            }
+        </style>
     </head>
     <body>
         <!-- Responsive navbar-->
@@ -21,7 +25,7 @@
             <div class="container px-5">
                 <a class="navbar-brand" href="#!">JW은행</a>
                 <div>
-                <a class="navbar-brand" href="${ pageContext.request.contextPath }/managerLogin">관리자 로그인</a>
+                <a class="navbar-brand hidden-link" href="${ pageContext.request.contextPath }/managerLogin">관리자 로그인</a>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -49,8 +53,8 @@
                                 <a class="btn btn-primary btn-lg px-4 me-sm-3" href="login">로그인</a>
                                 </c:if>
                                 <c:if test="${ not empty userVO }">
-                           <a class="btn btn-primary btn-lg px-4 me-sm-3" href="logout">로그아웃</a>
-                        </c:if>
+                                    <a class="btn btn-primary btn-lg px-4 me-sm-3" href="logout">로그아웃</a>
+                                </c:if>
                                 <a class="btn btn-outline-light btn-lg px-4" href="${ pageContext.request.contextPath }/signup">회원가입</a>
                             </div>
                         </div>
@@ -75,12 +79,12 @@
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-star"></i></div>
                         <h2 class="h4 fw-bolder">내 계좌</h2>
                         <p>고객님 어서오세요!</p>
-                        <a class="text-decoration-none" href="${ pageContext.request.contextPath }/accounts">
+                        <a class="text-decoration-none" href="${ pageContext.request.contextPath }/listAccounts">
                             내 계좌 확인하러 가기!
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
-                   <div class="col-lg-4 mb-5 mb-lg-0">
+                    <div class="col-lg-4 mb-5 mb-lg-0">
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi-wifi"></i></div>
                         <h2 class="h4 fw-bolder">계좌이체</h2>
                         <p>계좌이체하기</p>

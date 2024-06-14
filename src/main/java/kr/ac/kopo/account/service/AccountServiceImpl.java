@@ -1,56 +1,60 @@
 package kr.ac.kopo.account.service;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.ac.kopo.account.dao.AccountDAO;
 import kr.ac.kopo.account.vo.AccountVO;
 import kr.ac.kopo.transactiondetail.service.TransactionDetailService;
 import kr.ac.kopo.transactiondetail.vo.TransactionDetailVO;
 
-@Repository
-public class AccountServiceImpl implements AccountService{
+@Service
+public class AccountServiceImpl implements AccountService {
 	
-	@Autowired
-	private AccountDAO accountDao;
-	@Autowired
-    private TransactionDetailService transactiondetailService;
+    @Autowired
+    private AccountDAO accountDao;
+    
+    @Autowired
+    private TransactionDetailService transactionDetailService;
 	
-	@Override
-	public AccountVO accountRegister(AccountVO account) {
-		try {
-			accountDao.accountRegister(account);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return account;
-	}
-	
-	@Override
+    @Override
+    public AccountVO accountRegister(AccountVO account) {
+        try {
+            accountDao.accountRegister(account);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+
+    @Transactional
+    @Override
     public boolean deposit(String accountNum, int amount) {
         try {
-        	AccountVO account = accountDao.findById(accountNum);
+            AccountVO account = accountDao.findById(accountNum);
             accountDao.deposit(accountNum, amount);
+            
             TransactionDetailVO transaction = new TransactionDetailVO();
             transaction.setAccountNum(accountNum);
             transaction.setAmount(amount);
             transaction.setTransactionDate(new Date());
             transaction.setDepositorName(account.getCustomer_id());
             transaction.setToAccount(accountNum);
-            transactiondetailService.recordTransaction(transaction);
+            transactionDetailService.recordTransaction(transaction);
+            
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-	
-	@Override
+
+    @Transactional
+    @Override
     public boolean withdraw(String accountId, String password, int amount) {
         AccountVO account = accountDao.findById(accountId);
         if (account != null && account.getAccount_password().equals(password) && account.getAccount_money() >= amount) {
@@ -63,14 +67,14 @@ public class AccountServiceImpl implements AccountService{
             transaction.setTransactionDate(new Date());
             transaction.setDepositorName(account.getCustomer_id());
             transaction.setFromAccount(accountId);
-            transactiondetailService.recordTransaction(transaction);
-
+            transactionDetailService.recordTransaction(transaction);
+            
             return true;
         }
         return false;
     }
-	
-	@Override
+
+    @Override
     public List<AccountVO> getAllAccounts() {
         return accountDao.getAllAccounts();
     }
@@ -85,6 +89,10 @@ public class AccountServiceImpl implements AccountService{
         return accountDao.getTransactionsByAccountId(accountId);
     }
 
-	
+    @Override
+    public List<AccountVO> getAccountsByCustomerId(String customer_id) throws Exception {
+        return accountDao.getAccountsByCustomerId(customer_id);
+    }
 
+ 
 }

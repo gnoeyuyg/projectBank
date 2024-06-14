@@ -64,7 +64,7 @@
                 <div class="col-lg-4 mb-5 mb-lg-0">
                     <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-house"></i></div>
                     <h2 class="h4 fw-bolder">회원 정보 조회</h2>
-                    <a class="text-decoration-none" href="${pageContext.request.contextPath}/manager/listAccounts">
+                    <a class="text-decoration-none" href="${pageContext.request.contextPath}/manager/listAccountsForManager">
                         회원 정보 조회하기
                         <i class="bi bi-arrow-right"></i>
                     </a>

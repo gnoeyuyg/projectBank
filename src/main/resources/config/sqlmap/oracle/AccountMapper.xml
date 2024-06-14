@@ -2,66 +2,57 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dao.AccountDAO">
+<mapper namespace="kr.ac.kopo.account.dao.AccountDAO">
 
     <!-- 계좌 등록 -->
     <insert id="accountRegister" parameterType="kr.ac.kopo.account.vo.AccountVO">
         INSERT INTO ACCOUNT (account_num, customer_id, name, account_password)
         VALUES (#{account_num}, #{customer_id}, #{name}, #{account_password})
     </insert>
-    
+
     <!-- 계좌 번호로 계좌 조회 -->
     <select id="findAccountByNumber" parameterType="String" resultType="kr.ac.kopo.account.vo.AccountVO">
-        SELECT account_num, customer_id, name, account_password, account_money, open_date, bank_code
-        FROM account
-        WHERE account_num = #{account_num}
+        SELECT * FROM ACCOUNT WHERE account_num = #{account_num}
     </select>
 
     <!-- 계좌 업데이트 -->
     <update id="updateAccount" parameterType="kr.ac.kopo.account.vo.AccountVO">
-        UPDATE account
-        SET customer_id = #{customer_id},
-            name = #{name},
-            account_password = #{account_password},
-            account_money = #{account_money},
-            open_date = #{open_date},
-            bank_code = #{bank_code}
-        WHERE account_num = #{account_num}
+        UPDATE ACCOUNT SET account_MONEY = #{account_MONEY} WHERE account_NUM = #{account_num}
     </update>
 
-    <!-- 입금 처리 (계좌 잔액 업데이트) -->
-    <update id="deposit" parameterType="map">
-        UPDATE account
-        SET account_money = account_money + #{amount}
-        WHERE account_num = #{account_num}
+    <!-- 입금 -->
+    <update id="deposit">
+        UPDATE ACCOUNT SET account_MONEY = account_MONEY + #{account_money} WHERE account_NUM = #{account_num}
     </update>
-    
-    <select id="findById" parameterType="string" resultType="kr.ac.kopo.account.vo.AccountVO">
-        SELECT * FROM ACCOUNT WHERE account_num = #{account_num}
+
+    <!-- ID로 계좌 조회 -->
+    <select id="findById" parameterType="String" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT WHERE customer_Id = #{customer_id}
     </select>
 
-    <update id="update" parameterType="kr.ac.kopo.account.vo.AccountVO">
-        UPDATE ACCOUNT
-        SET account_money = #{account_money}, account_password = #{account_password} -- 필요한 다른 필드도 추가하세요
-        WHERE account_num = #{account_num}
-    </update>
-    
+    <!-- 모든 계좌 조회 -->
     <select id="getAllAccounts" resultType="kr.ac.kopo.account.vo.AccountVO">
-        SELECT * FROM account
+        SELECT * FROM ACCOUNT
     </select>
 
-    <select id="getAccountById" parameterType="string" resultType="kr.ac.kopo.account.vo.AccountVO">
-        SELECT * FROM account WHERE account_num = #{account_num}
+    <!-- ID로 계좌 조회 -->
+    <select id="getAccountById" parameterType="String" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT WHERE account_id = #{customer_id}
     </select>
 
-    <select id="getTransactionsByAccountId" parameterType="string" resultType="kr.ac.kopo.transactiondetail.vo.TransactionDetailVO">
-        SELECT transaction_id AS transactionId,
-           account_num AS accountNum,
-           amount,
-           transaction_date AS transactionDate,
-           depositor_name AS depositorName,
-           to_account AS toAccount,
-           from_account AS fromAccount FROM Transaction_details WHERE account_num = #{account_num}
+    <!-- 계좌 ID로 거래 내역 조회 -->
+    <select id="getTransactionsByAccountId" parameterType="String" resultType="kr.ac.kopo.transactiondetail.vo.TransactionDetailVO">
+        SELECT * FROM transaction_details WHERE account_id = #{customer_id}
+    </select>
+
+    <!-- 고객 ID로 계좌 조회 -->
+    <select id="getAccountsByCustomerId" parameterType="String" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT WHERE customer_id = #{customer_Id}
+    </select>
+
+    <!-- 계좌 ID와 고객 ID로 계좌 조회 -->
+    <select id="getAccountByIdAndCustomerId" parameterType="map" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT WHERE account_id = #{customer_id} AND customer_id = #{customer_id}
     </select>
 
 </mapper>

@@ -39,7 +39,7 @@
         </div>
         <div>
             <label for="amount">입금 금액:</label>
-            <input type="number" id="amount" name="amount" required min="0">
+            <input type="number" id="account_money" name="account_money" required min="0">
         </div>
         <button type="submit">입금</button>
     </form>

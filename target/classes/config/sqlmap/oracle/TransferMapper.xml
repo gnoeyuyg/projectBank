@@ -28,5 +28,10 @@
     <select id="getAccountByAccountNum" parameterType="string" resultType="kr.ac.kopo.account.vo.AccountVO">
         SELECT * FROM account WHERE account_NUM = #{accountNum}
     </select>
+    
+    <insert id="insertTransactionDetails" parameterType="kr.ac.kopo.transaction.vo.TransactionVO">
+        INSERT INTO Transaction_details (transaction_id, account_NUM, amount, transaction_date, Depositor_name, to_account, from_account)
+        VALUES (#{transactionId}, #{account_Num, jdbcType=VARCHAR}, #{amount}, #{transactionDate, jdbcType=DATE}, #{depositorName, jdbcType=VARCHAR}, #{to_Account, jdbcType=VARCHAR}, #{from_Account, jdbcType=VARCHAR})
+    </insert>
 
 </mapper>
