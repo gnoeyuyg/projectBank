@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.ac.kopo.account.dao.AccountDAO">
+
+	<!-- 상품 번호 받아와서 계좌 번호에 추가 -->
+	<select id="getProductNumber" parameterType="string" resultType="int">
+	    SELECT product_number
+	    FROM installment_savings
+	    WHERE deposit_type = #{depositType}
+	</select>
+
+    <!-- 계좌 등록 -->
+    <insert id="accountRegister" parameterType="kr.ac.kopo.account.vo.AccountVO">
+        INSERT INTO ACCOUNT (account_num, customer_id, name, account_password)
+        VALUES (#{account_num}, #{customer_id}, #{name}, #{account_password})
+    </insert>
+
+    <!-- 계좌 번호로 계좌 조회 -->
+    <select id="findAccountByNumber" parameterType="String" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT WHERE account_num = #{account_num}
+    </select>
+
+    <!-- 계좌 업데이트 -->
+    <update id="updateAccount" parameterType="kr.ac.kopo.account.vo.AccountVO">
+        UPDATE ACCOUNT SET account_MONEY = #{account_MONEY} WHERE account_NUM = #{account_num}
+    </update>
+
+    <!-- 입금 -->
+    <update id="deposit">
+        UPDATE ACCOUNT SET account_MONEY = account_MONEY + #{account_money} WHERE account_NUM = #{account_num}
+    </update>
+
+    <!-- ID로 계좌 조회 -->
+    <select id="findById" parameterType="String" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT WHERE customer_Id = #{customer_id}
+    </select>
+
+    <!-- 모든 계좌 조회 -->
+    <select id="getAllAccounts" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT
+    </select>
+
+    <!-- ID로 계좌 조회 -->
+    <select id="getAccountById" parameterType="String" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT WHERE account_id = #{customer_id}
+    </select>
+
+    <!-- 계좌 ID로 거래 내역 조회 -->
+    <select id="getTransactionsByAccountId" parameterType="String" resultType="kr.ac.kopo.transactiondetail.vo.TransactionDetailVO">
+        SELECT * FROM transaction_details WHERE account_id = #{customer_id}
+    </select>
+
+    <!-- 고객 ID로 계좌 조회 -->
+    <select id="getAccountsByCustomerId" parameterType="String" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT WHERE customer_id = #{customer_Id}
+    </select>
+
+    <!-- 계좌 ID와 고객 ID로 계좌 조회 -->
+    <select id="getAccountByIdAndCustomerId" parameterType="map" resultType="kr.ac.kopo.account.vo.AccountVO">
+        SELECT * FROM ACCOUNT WHERE account_id = #{customer_id} AND customer_id = #{customer_id}
+    </select>
+
+</mapper>
