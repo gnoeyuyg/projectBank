@@ -8,7 +8,8 @@
     <insert id="insertTransaction" parameterType="kr.ac.kopo.transactiondetail.vo.TransactionDetailVO">
         INSERT INTO Transaction_details (
             transaction_id,
-            account_NUM,
+            account_num,
+            transaction_type,
             amount,
             transaction_date,
             Depositor_name,
@@ -17,6 +18,7 @@
         ) VALUES (
             #{transactionId},
             #{accountNum},
+            #{transaction_type},
             #{amount},
             #{transactionDate},
             #{depositorName},

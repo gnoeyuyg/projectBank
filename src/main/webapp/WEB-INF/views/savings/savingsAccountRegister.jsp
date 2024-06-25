@@ -6,14 +6,21 @@
 <%
     // 로그인 여부 확인
     MemberVO userVO = (MemberVO) session.getAttribute("userVO");
-    String customerId = null;
-    if (userVO != null) {
-        customerId = userVO.getCustomer_id();
+    if (userVO == null) {
+        // 사용자 정보가 없는 경우 로그인 페이지로 리다이렉트
+        response.sendRedirect("${pageContext.request.contextPath}/login");
+        return;
     }
+    String customerId = userVO.getCustomer_id();
 %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
+
     <meta charset="UTF-8">
     <title>적금 가입</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
@@ -102,12 +109,13 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/">메인페이지</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="mypage">마이페이지</a></li>
-                <li class="nav-item"><a class="nav-link" href="myaccount.jsp">내 계좌</a></li>
-                <li class="nav-item"><a class="nav-link" href="account.jsp">계좌 개설</a></li>
-                <li class="nav-item"><a class="nav-link" href="savings.jsp">적금</a></li>
-                <li class="nav-item"><a class="nav-link" href="loans.jsp">대출</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">메인페이지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/mypage">마이페이지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/accounts">내 계좌</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/transfer">계좌이체</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/accountRegister">계좌 개설</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/savingsAccountRegister">적금</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/loan/apply">대출</a></li>
             </ul>
         </div>
     </div>
@@ -147,7 +155,7 @@
     </div>
     <div>
         <label for="amount">최초 적금양:</label> 
-		<input type="number" id="amount" name="amount" value="10000" required pattern="[0-9]" title="10억 미만의 수">
+        <input type="number" id="amount" name="amount" value="10000" required pattern="[0-9]" title="10억 미만의 수">
     </div>
     <div>
         <h3>약관 동의</h3>

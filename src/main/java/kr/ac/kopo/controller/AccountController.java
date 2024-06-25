@@ -1,6 +1,7 @@
 package kr.ac.kopo.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -39,12 +40,25 @@ public class AccountController {
     }
 
     @GetMapping("/accountRegister")
-    public String accountRegisterForm() {
+    public String accountRegisterForm(HttpSession session, Model model) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
+            return "redirect:/login";
+        }
         return "account/accountRegister";
     }
 
     @PostMapping("/accountRegister")
-    public String accountRegister(@ModelAttribute AccountVO account, Model model) {
+    public String accountRegister(@ModelAttribute AccountVO account, Model model, HttpSession session) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
+            return "redirect:/login";
+        }
+
         try {
             // 계좌 번호 생성
             String accountNumber = RandomAccountNumberGenerator.generateRandomAccountNumber();
@@ -67,12 +81,25 @@ public class AccountController {
     }
     
     @GetMapping("/deposit")
-    public String depositForm() {
+    public String depositForm(HttpSession session, Model model) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
+            return "redirect:/login";
+        }
         return "account/deposit";
     }
 
     @PostMapping("/deposit")
-    public String deposit(@RequestParam("account_num") String accountNum, @RequestParam("amount") int amount, Model model) {
+    public String deposit(@RequestParam("account_num") String accountNum, @RequestParam("amount") int amount, Model model, HttpSession session) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
+            return "redirect:/login";
+        }
+
         try {
             boolean success = accountService.deposit(accountNum, amount);
             if (success) {
@@ -88,7 +115,13 @@ public class AccountController {
     }
     
     @GetMapping("/withdrawal")
-    public String withdrawalForm() {
+    public String withdrawalForm(HttpSession session, Model model) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
+            return "redirect:/login";
+        }
         return "account/withdrawal";
     }
 
@@ -96,7 +129,14 @@ public class AccountController {
     public String withdraw(@RequestParam("accountId") String accountId, 
                            @RequestParam("password") String password, 
                            @RequestParam("amount") int amount, 
-                           Model model) {
+                           Model model, HttpSession session) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
+            return "redirect:/login";
+        }
+
         try {
             boolean success = accountService.withdraw(accountId, password, amount);
             if (success) {
@@ -111,12 +151,12 @@ public class AccountController {
         return "account/withdrawal";
     }
     
-    @GetMapping("/listAccounts")
-    public String listAccounts(HttpSession session, Model model) throws Exception {
+    @GetMapping("/accounts")
+    public String listAccounts(HttpSession session, Model model) {
         // 세션에서 로그인한 사용자 정보를 가져옵니다.
         MemberVO user = (MemberVO) session.getAttribute("userVO");
         if (user == null) {
-            // 사용자 정보가 없는 경우 로그인 페이지로 리다이렉트
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
             return "redirect:/login";
         }
 
@@ -128,11 +168,85 @@ public class AccountController {
     }
 
     @GetMapping("/account/{accountId}")
-    public String viewAccountDetails(@PathVariable("accountId") String accountId, Model model) {
+    public String viewAccountDetails(@PathVariable("accountId") String accountId, Model model, HttpSession session) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
+            return "redirect:/login";
+        }
+
         List<TransactionDetailVO> transactions = accountService.getTransactionsByAccountId(accountId);
+        
+        // 거래 내역을 나중에 일어난 순으로 정렬
+        transactions.sort(Comparator.comparing(TransactionDetailVO::getTransactionDate).reversed());
+        
         transactions.forEach(transaction -> System.out.println(transaction.getTransactionId() + " " + transaction.getTransactionDate()));
+        
         model.addAttribute("account", accountService.getAccountById(accountId));
-        model.addAttribute("transactions", accountService.getTransactionsByAccountId(accountId));
+        model.addAttribute("transactions", transactions);
         return "account/accountDetails";
+    }
+    
+    @GetMapping("/close/{accountId}")
+    public String closeAccountForm(@PathVariable("accountId") String accountId, Model model, HttpSession session) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
+            return "redirect:/login";
+        }
+
+        AccountVO account = accountService.getAccountById(accountId);
+        model.addAttribute("account", account);
+        return "account/closeAccount";
+    }
+
+    @GetMapping("/close")
+    public String closeAccount(@RequestParam("accountId") String accountId,
+                               @RequestParam("password") String password,
+                               Model model, HttpSession session) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
+            return "redirect:/login";
+        }
+
+        AccountVO account = accountService.getAccountById(accountId);
+        if (account.getAccount_money() > 0) {
+            model.addAttribute("account", account);
+            return "account/confirmCloseAccount";
+        }
+        boolean isClosed = accountService.closeAccount(accountId, password);
+        if (isClosed) {
+            return "account/closeSuccess";
+        } else {
+            model.addAttribute("error", "Invalid password");
+            model.addAttribute("account", account);
+            return "account/closeAccount";
+        }
+    }
+
+    @GetMapping("/confirmClose")
+    public String confirmCloseAccount(@RequestParam("accountId") String accountId,
+                                      @RequestParam("password") String password,
+                                      Model model, HttpSession session) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리디렉트
+            return "redirect:/login";
+        }
+
+        boolean isClosed = accountService.closeAccount(accountId, password);
+        if (isClosed) {
+            return "account/closeSuccess";
+        } else {
+            AccountVO account = accountService.getAccountById(accountId);
+            model.addAttribute("error", "Invalid password");
+            model.addAttribute("account", account);
+            return "account/confirmCloseAccount";
+        }
     }
 }

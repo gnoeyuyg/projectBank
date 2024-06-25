@@ -6,7 +6,7 @@ public class AccountVO {
     private String account_num;
     private String customer_id;
     private String name;
-    private String account_password;
+    private String account_password; 
     private int account_money;
     private Date open_date;
     private String bank_code;

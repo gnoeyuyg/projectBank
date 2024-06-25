@@ -12,8 +12,5 @@ public interface MemberService {
     void updateMember(MemberVO member) throws Exception;
     boolean deleteAccount(String userId, String password);
     
-    // 중복체크
-    boolean isCustomerIdDuplicate(String customer_id);
-    boolean isSSNDuplicate(String SSN);
-    boolean isEmailDuplicate(String email);
+    boolean checkId(String id) throws Exception;
 }

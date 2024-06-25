@@ -23,6 +23,11 @@ public class MemberServiceImpl implements MemberService {
     }
     
     @Override
+	public boolean checkId(String id) throws Exception {
+		return memberDao.getMemberById(id) != null ? false : true;
+	}
+
+	@Override
     public MemberVO getMemberById(String id) throws Exception {
     	System.out.println("service");
         return memberDao.getMemberById(id);
@@ -41,21 +46,5 @@ public class MemberServiceImpl implements MemberService {
             return true;
         }
         return false;
-    }
-    
-    //중복체크
-    @Override
-    public boolean isCustomerIdDuplicate(String customer_id) {
-        return memberDao.findByCustomerId(customer_id) != null;
-    }
-
-    @Override
-    public boolean isSSNDuplicate(String SSN) {
-        return memberDao.findBySSN(SSN) != null;
-    }
-
-    @Override
-    public boolean isEmailDuplicate(String email) {
-        return memberDao.findByEmail(email) != null;
     }
 }

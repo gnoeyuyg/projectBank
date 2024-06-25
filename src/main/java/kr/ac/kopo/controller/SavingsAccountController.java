@@ -2,6 +2,8 @@ package kr.ac.kopo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.ac.kopo.member.vo.MemberVO;
 import kr.ac.kopo.savings.service.SavingsAccountService;
 import kr.ac.kopo.savings.vo.SavingsAccountVO;
 
@@ -22,7 +25,16 @@ public class SavingsAccountController {
     private SavingsAccountService savingsAccountService;
 
     @GetMapping("/savingsAccountRegister")
-    public String savingsAccountRegisterForm(Model model) {
+    public String savingsAccountRegisterForm(HttpSession session, Model model) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리다이렉트
+            return "redirect:/login";
+        }
+
+        model.addAttribute("userVO", user); // 사용자 정보를 모델에 추가
+
         try {
             List<String> depositTypes = savingsAccountService.getAllDepositTypes();
             model.addAttribute("depositTypes", depositTypes);
@@ -35,7 +47,17 @@ public class SavingsAccountController {
     }
 
     @PostMapping("/savingsAccountRegister")
-    public String savingsAccountRegister(@ModelAttribute SavingsAccountVO savingsAccount, @RequestParam("depositType") String depositType, Model model) {
+    public String savingsAccountRegister(@ModelAttribute SavingsAccountVO savingsAccount, 
+                                         @RequestParam("depositType") String depositType, 
+                                         HttpSession session, 
+                                         Model model) {
+        // 세션에서 로그인한 사용자 정보를 가져옵니다.
+        MemberVO user = (MemberVO) session.getAttribute("userVO");
+        if (user == null) {
+            // 사용자 정보가 없는 경우 로그인 페이지로 리다이렉트
+            return "redirect:/login";
+        }
+
         try {
             if (depositType == null || depositType.isEmpty()) {
                 throw new IllegalArgumentException("Deposit type is null or empty");

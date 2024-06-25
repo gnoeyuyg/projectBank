@@ -14,9 +14,4 @@ public interface MemberDAO {
      
      MemberVO findById(String userId);
      void delete(String userId);
-     
-     //중복체크
-     MemberVO findByCustomerId(String customer_id);
-     MemberVO findBySSN(String SSN);
-     MemberVO findByEmail(String email);
 }

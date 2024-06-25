@@ -12,8 +12,8 @@
     
     <!-- 회원가입 -->
     <insert id="signUp" parameterType="memberVO">
-        INSERT INTO Customers (customer_id, password, customer_name,SSN, phone_number, email, address)
-        VALUES (#{customer_id}, #{password}, #{customer_name},#{SSN}, #{phone_number}, #{email}, #{address})
+        INSERT INTO Customers (customer_id, password, customer_name, ssn, phone_number, email, address)
+        VALUES (#{customer_id}, #{password}, #{customer_name}, #{ssn}, #{phone_number}, #{email}, #{address})
     </insert>
     
      <select id="getMemberById" parameterType="String" resultType="memberVO">
@@ -37,19 +37,4 @@
     <delete id="delete" parameterType="string">
         DELETE FROM Customers WHERE customer_id = #{customer_id}
     </delete>
-    
-    <!-- 중복 체크 -->
-    <select id="findByCustomerId" parameterType="String" resultType="MemberVO">
-    SELECT * FROM Customers WHERE customer_id = #{customer_id}
-	</select>
-	
-	<select id="findBySSN" parameterType="String" resultType="MemberVO">
-	    SELECT * FROM Customers WHERE SSN = #{SSN}
-	</select>
-	
-	<select id="findByEmail" parameterType="String" resultType="MemberVO">
-	    SELECT * FROM Customers WHERE email = #{email}
-	</select>
-    
-    
 </mapper>

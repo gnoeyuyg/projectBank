@@ -51,6 +51,7 @@ public class TransactionController {
     @PostMapping("/transfer")
     public String transfer(@ModelAttribute TransactionVO transaction) throws Exception {
         transactionService.transfer(transaction);
+        System.out.println(transaction);
         
         return "redirect:/";
     }

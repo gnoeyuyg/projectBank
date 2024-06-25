@@ -26,8 +26,9 @@ public class TransactionDAOImpl implements TransactionDAO {
     public AccountVO getAccountByAccountNum(String accountNum) {
         return sqlSession.selectOne("dao.TransferDAO.getAccountByAccountNum", accountNum);
     }
-    /*@Override
-    public void insertTransactionDetails(TransactionVO transaction) throws Exception {
-        sqlSession.insert("dao.TransferDAO.insertTransactionDetails", transaction);
-    }*/
+    @Override
+    public void insertTransactionDetail(TransactionVO transaction) throws Exception {
+        sqlSession.insert("dao.TransferDAO.insertTransactionDetail", transaction);
+    }
+    
 }

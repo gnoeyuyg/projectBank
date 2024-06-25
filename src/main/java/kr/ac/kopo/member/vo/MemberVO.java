@@ -4,11 +4,21 @@ public class MemberVO {
     private String customer_id;
     private String password;
     private String customer_name;
-    private String SSN;
+    private String ssn;
 	private String phone_number;
     private String email;
     private String type;
     private String address;
+	public MemberVO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "MemberVO [customer_id=" + customer_id + ", password=" + password + ", customer_name=" + customer_name + ", ssn=" + ssn
+				+ ", phone_number=" + phone_number + ", email=" + email + ", type=" + type + ", address=" + address
+				+ "]";
+	}
 	public String getCustomer_id() {
 		return customer_id;
 	}
@@ -27,11 +37,11 @@ public class MemberVO {
 	public void setCustomer_name(String customer_name) {
 		this.customer_name = customer_name;
 	}
-	public String getSSN() {
-		return SSN;
+	public String getSsn() {
+		return ssn;
 	}
-	public void setSSN(String sSN) {
-		SSN = sSN;
+	public void setSsn(String ssn) {
+		this.ssn = ssn;
 	}
 	public String getPhone_number() {
 		return phone_number;
@@ -57,16 +67,7 @@ public class MemberVO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	@Override
-	public String toString() {
-		return "MemberVO [customer_id=" + customer_id + ", password=" + password + ", customer_name=" + customer_name
-				+ ", SSN=" + SSN + ", phone_number=" + phone_number + ", email=" + email + ", type=" + type
-				+ ", address=" + address + "]";
-	}
-	public MemberVO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
+    
+
     
 }

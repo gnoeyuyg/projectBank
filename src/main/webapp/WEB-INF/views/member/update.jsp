@@ -14,6 +14,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css">
+
 <meta charset="UTF-8">
 <title>회원정보 수정하기</title>
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/CSS/home.css">
@@ -26,12 +31,13 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/">메인페이지</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="mypage">마이페이지</a></li>
-                        <li class="nav-item"><a class="nav-link" href="myaccount.jsp">내 계좌</a></li>
-                        <li class="nav-item"><a class="nav-link" href="account.jsp">계좌 개설</a></li>
-                        <li class="nav-item"><a class="nav-link" href="savings.jsp">적금</a></li>
-                        <li class="nav-item"><a class="nav-link" href="loans.jsp">대출</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">메인페이지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/mypage">마이페이지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/accounts">내 계좌</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/transfer">계좌이체</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/accountRegister">계좌 개설</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/savingsAccountRegister">적금</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${ pageContext.request.contextPath }/loan/apply">대출</a></li>
                     </ul>
                 </div>
             </div>
@@ -56,7 +62,11 @@
                                 <label for="name">고객님의 이름</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" type="email" id="email" name="email" required />
+                                <input class="form-control" type="text" id="ssn" name="ssn"  value="<%= userVO.getSsn() %>" required pattern="[가-힣]+" title="이름은 한글로만 입력해주세요." />
+                                <label for="name">고객님의 주민번호</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" ype="email" id="email" name="email" required />
                                 <label for="email">수정할 이메일</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -75,11 +85,14 @@
                                 <label for="password">수정할 비밀번호</label>
                             </div>
                             <div class="d-grid"><button class="btn btn-primary btn-lg"  type="submit">수정하기</button></div>
-                        </form>
+                        </forㅡ>
                     </div>
                 </div>
             </div>
         </section> 
+        <footer class="py-5 bg-dark">
+            <div class="container px-5"><p class="m-0 text-center text-white">&copy; 2024 Bank. All rights reserved.</p></div>
+        </footer>
 <script>
     function validatePassword() {
         var passwordInput = document.getElementById("password");
