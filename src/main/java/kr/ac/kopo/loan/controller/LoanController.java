@@ -1,6 +1,6 @@
 package kr.ac.kopo.loan.controller;
 
-import javax.servlet.http.HttpSession;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kr.ac.kopo.loan.service.LoanService;
 import kr.ac.kopo.loan.vo.LoanVO;
-import kr.ac.kopo.member.vo.MemberVO;
 
 @SessionAttributes({"userVO"})
 @Controller
@@ -23,21 +22,12 @@ public class LoanController {
     private LoanService loanService;
 
     @GetMapping("/loan/apply")
-    public String applyLoanForm(HttpSession session) {
-        MemberVO user = (MemberVO) session.getAttribute("userVO");
-        if (user == null) {
-            return "redirect:/login";
-        }
+    public String applyLoanForm() {
         return "loan/applyLoan";
     }
 
     @PostMapping("/loan/apply")
-    public String applyLoan(@ModelAttribute LoanVO loan, HttpSession session, Model model) {
-        MemberVO user = (MemberVO) session.getAttribute("userVO");
-        if (user == null) {
-            return "redirect:/login";
-        }
-
+    public String applyLoan(@ModelAttribute LoanVO loan, Model model) {
         try {
             loanService.applyLoan(loan);
             model.addAttribute("applySuccess", true);
@@ -49,13 +39,8 @@ public class LoanController {
     }
 
     @GetMapping("/loan/view")
-    public String viewLoan(HttpSession session, Model model) throws Exception {
-        MemberVO user = (MemberVO) session.getAttribute("userVO");
-        if (user == null) {
-            return "redirect:/login";
-        }
-
-        LoanVO loan = loanService.getLoanById(user.getCustomer_id());
+    public String viewLoan(@RequestParam("customerId") String customerId, Model model) throws Exception {
+        LoanVO loan = loanService.getLoanById(customerId);
         model.addAttribute("loan", loan);
         return "loan/viewLoan";
     }

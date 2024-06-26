@@ -31,7 +31,9 @@ import kr.ac.kopo.transactiondetail.vo.TransactionDetailVO;
 public class AccountController {
     @Autowired
     private AccountService accountService;
-
+    @Autowired
+    private RandomAccountNumberGenerator ra;
+    
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -61,7 +63,7 @@ public class AccountController {
 
         try {
             // 계좌 번호 생성
-            String accountNumber = RandomAccountNumberGenerator.generateRandomAccountNumber();
+            String accountNumber = ra.generateRandomAccountNumber();
             account.setAccount_num(accountNumber);
 
             // 계좌 등록

@@ -1,13 +1,15 @@
 package kr.ac.kopo.savings.dao;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import kr.ac.kopo.savings.vo.SavingsAccountVO;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import kr.ac.kopo.savings.vo.SavingsAccountVO;
+import kr.ac.kopo.transactiondetail.vo.TransactionDetailVO;
 
 @Repository
 public class SavingsAccountDAOImpl implements SavingsAccountDAO {
@@ -68,6 +70,9 @@ public class SavingsAccountDAOImpl implements SavingsAccountDAO {
 
     @Override
     public int getProductNumber(String depositType) throws Exception {
+        if (depositType == null) {
+            throw new IllegalArgumentException("Deposit type is null");
+        }
         return sqlSession.selectOne("kr.ac.kopo.savings.dao.SavingsAccountDAO.getProductNumber", depositType);
     }
 
@@ -86,7 +91,80 @@ public class SavingsAccountDAOImpl implements SavingsAccountDAO {
     public void updateAllSavingsAccounts() throws Exception {
         sqlSession.update("kr.ac.kopo.savings.dao.SavingsAccountDAO.updateAllSavingsAccounts");
     }
+    
+    @Override
+    public List<SavingsAccountVO> getAccountsByCustomerId(String customerId) {
+        return sqlSession.selectList("kr.ac.kopo.savings.dao.SavingsAccountDAO.getAccountsByCustomerId", customerId);
+    }
+    
+    @Override
+    public SavingsAccountVO getAccountById(String accountId) {
+        return sqlSession.selectOne("dao.AccountDAO.getAccountById", accountId);
+    }
 
+    @Override
+    public List<TransactionDetailVO> getTransactionsByAccountId(String accountId) {
+        return sqlSession.selectList("dao.AccountDAO.getTransactionsByAccountId", accountId);
+    }
+    
+    @Override
+    public int countBySavingsAccountNumber(String accountNumber) {
+        return sqlSession.selectOne("kr.ac.kopo.savings.dao.SavingsAccountDAO.countBySavingsAccountNumber", accountNumber);
+    }
+    
+    @Override
+    public SavingsAccountVO findByAccountNum(String accountNum) {
+        return sqlSession.selectOne("kr.ac.kopo.savings.dao.SavingsAccountDAO.findByAccountNum", accountNum);
+    }
 
+    @Override
+    public SavingsAccountVO getAccountById2(String accountId) {
+        return sqlSession.selectOne("kr.ac.kopo.savings.dao.SavingsAccountDAO.getAccountById", accountId);
+    }
 
+    @Override
+    public void deleteAccount(String accountId) {
+        sqlSession.delete("kr.ac.kopo.savings.dao.SavingsAccountDAO.deleteAccount", accountId);
+    }
+
+    @Override
+    public void insertTransactionHistory(TransactionDetailVO transactionHistory) {
+        sqlSession.insert("kr.ac.kopo.transactiondetail.vo.TransactionDetailVO.insertTransactionHistory", transactionHistory);
+    }
+
+    @Override
+    public void updateAccountBalance(String targetAccountId, int amount) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("targetAccountId", targetAccountId);
+        params.put("amount", amount);
+        sqlSession.update("kr.ac.kopo.savings.dao.SavingsAccountDAO.updateAccountBalance", params);
+    }
+
+    @Override
+    public boolean transfer(String fromAccountNum, String toAccountNum, double amount) throws Exception {
+        Map<String, Object> params = new HashMap<>();
+        params.put("fromAccountNum", fromAccountNum);
+        params.put("toAccountNum", toAccountNum);
+        params.put("amount", amount);
+
+        int rowsAffected1 = sqlSession.update("kr.ac.kopo.savings.dao.SavingsAccountDAO.deductMoney", params);
+        int rowsAffected2 = sqlSession.update("kr.ac.kopo.savings.dao.SavingsAccountDAO.addMoney", params);
+
+        return rowsAffected1 > 0 && rowsAffected2 > 0;
+    }
+
+    @Override
+    public void saveTransaction(TransactionDetailVO transaction) throws Exception {
+        sqlSession.insert("kr.ac.kopo.savings.dao.SavingsAccountDAO.insertTransactionHistory", transaction);
+    }
+
+    @Override
+    public void delete(String savingsAccountNum) throws Exception {
+        sqlSession.delete("kr.ac.kopo.savings.dao.SavingsAccountDAO.deleteAccount", savingsAccountNum);
+    }
+
+    @Override
+    public int checkPassword(Map<String, Object> params) throws Exception {
+        return sqlSession.selectOne("kr.ac.kopo.savings.dao.SavingsAccountDAO.checkPassword", params);
+    }
 }

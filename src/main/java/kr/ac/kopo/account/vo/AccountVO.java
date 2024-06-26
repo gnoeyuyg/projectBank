@@ -6,11 +6,17 @@ public class AccountVO {
     private String account_num;
     private String customer_id;
     private String name;
-    private String account_password; 
+    private String account_password;
     private int account_money;
     private Date open_date;
     private String bank_code;
     private int productNumber;
+	public int getProductNumber() {
+		return productNumber;
+	}
+	public void setProductNumber(int productNumber) {
+		this.productNumber = productNumber;
+	}
 	public String getAccount_num() {
 		return account_num;
 	}
@@ -22,12 +28,6 @@ public class AccountVO {
 	}
 	public void setCustomer_id(String customer_id) {
 		this.customer_id = customer_id;
-	}
-	public int getProductNumber() {
-		return productNumber;
-	}
-	public void setProductNumber(int productNumber) {
-		this.productNumber = productNumber;
 	}
 	public String getName() {
 		return name;
@@ -59,12 +59,11 @@ public class AccountVO {
 	public void setBank_code(String bank_code) {
 		this.bank_code = bank_code;
 	}
-	
 	@Override
 	public String toString() {
 		return "AccountVO [account_num=" + account_num + ", customer_id=" + customer_id + ", name=" + name
 				+ ", account_password=" + account_password + ", account_money=" + account_money + ", open_date="
-				+ open_date + ", bank_code=" + bank_code + ", productNumber=" + productNumber + "]";
+				+ open_date + ", bank_code=" + bank_code + "]";
 	}
 	public AccountVO() {
 		super();

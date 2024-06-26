@@ -30,7 +30,7 @@ public class MemberDAOImpl implements MemberDAO {
     	System.out.println(id + "dao1");
     	MemberVO m = sqlSession.selectOne("dao.MemberDAO.getMemberById", id);
     	System.out.println(m + "dao");
-        return m;
+        return sqlSession.selectOne("dao.MemberDAO.getMemberById", id);
     }
 
     @Override

@@ -19,105 +19,105 @@ import kr.ac.kopo.member.vo.MemberVO;
 @Controller
 public class MemberController {
 
-    @Autowired
-    private MemberService memberService;
+	@Autowired
+	private MemberService memberService;
+	
+	@GetMapping("/login")
+	public String loginForm(Model model) {
+		MemberVO member = new MemberVO();
+		model.addAttribute("M", member);
+		return "member/login";
+	}
+	
+	/*
+	 	1. 파라미터 추출(ID, PASSWORD)
+	 	2. t_member테이블에 추출한 데이터의 회원 존재여부 판단
+	*/
+	/**
+	 * 스프링 세션에 등록하는 방식으로 로그인 구현
+	 *
+	 */
+	@PostMapping("/login")
+	public String login(@ModelAttribute("M") MemberVO member, Model model) throws Exception {
+		System.out.println(member);
+		MemberVO loginVO = memberService.login(member);
+		if(loginVO == null) {
+			// 로그인 실패
+			return "member/login";
+		} else {
+			// 로그인 성공
+			model.addAttribute("userVO", loginVO);
+			return "redirect:/"; 
+		}
+	}
+	
+	@GetMapping("/logout")
+	public String logout(SessionStatus status) {
+		status.setComplete();
+		return "redirect:/";
+	}
+	
+	@GetMapping("/signup")
+	public String signUpForm() {
+	    return "member/signup";
+	    }
 
-    
-    @GetMapping("/login")
-    public String loginForm(Model model) {
-        MemberVO member = new MemberVO();
-        model.addAttribute("M", member);
-        return "member/login";
-    }
-
-    @PostMapping("/login")
-    public String login(@ModelAttribute("M") MemberVO member, Model model) throws Exception {
-        System.out.println(member);
-        MemberVO loginVO = memberService.login(member);
-        if(loginVO == null) {
-            return "member/login";
-        } else {
-            model.addAttribute("userVO", loginVO);
-            return "redirect:/"; 
-        }
-    }
-
-    @GetMapping("/logout")
-    public String logout(SessionStatus status) {
-        status.setComplete();
-        return "redirect:/";
-    }
-
-    @GetMapping("/signup")
-    public String signUpForm() {
-        return "member/signup";
-    }
-
-    @PostMapping("/signup")
-    public String signUp(MemberVO member, Model model) throws Exception {
-        System.out.println(member);
-        memberService.signUp(member);
-        return "redirect:/login";
-    }
-
-    @GetMapping("/member/mypage")
+	@PostMapping("/signup")
+	public String signUp(MemberVO member, Model model) throws Exception { // 회원가입 처리
+	System.out.println(member);
+		memberService.signUp(member);// 회원가입 후 로그인 페이지로 리다이렉트
+	        return "redirect:/login";
+	    }
+	
+	@GetMapping("/member/mypage")
     public String viewMyPage(HttpSession session, Model model) throws Exception {
-        MemberVO user = (MemberVO) session.getAttribute("userVO");
-        if (user == null) {
-            return "redirect:/login";
-        }
-        MemberVO member = memberService.getMemberById(user.getCustomer_id());
+        // 로그인한 사용자의 ID를 세션에서 가져옵니다.
+        MemberVO m = (MemberVO) session.getAttribute("userVO");
+        System.out.println("씨발거"+ m);
+        
+        // ID에 해당하는 회원 정보를 가져옵니다.
+        MemberVO member = memberService.getMemberById(m.getCustomer_id());
+        System.out.println(member);
+        
+        // 모델에 회원 정보를 추가합니다.
         model.addAttribute("member", member);
+        
+        // mypage.jsp 페이지로 이동합니다.
         return "banksystem/mypage";
     }
-
-    @GetMapping("/member/update")
-    public String update(HttpSession session) {
-        MemberVO user = (MemberVO) session.getAttribute("userVO");
-        if (user == null) {
-            return "redirect:/login";
-        }
+	@GetMapping("/member/update")
+    public String  update() {
         return "member/update";  
     }
 
     @PostMapping("/member/update")
     public String updateMyPage(@ModelAttribute("member") MemberVO member, HttpSession session, Model model) throws Exception {
-        MemberVO user = (MemberVO) session.getAttribute("userVO");
-        if (user == null) {
-            return "redirect:/login";
-        }
+        // 회원 정보를 업데이트합니다.
         memberService.updateMember(member);
-        session.setAttribute("userVO", memberService.getMemberById(member.getCustomer_id()));
-        return "redirect:/member/mypage";
+        System.out.println(member+"성진운");
+        // 세션에 저장된 회원 정보를 갱신합니다.
+        session.setAttribute("member", memberService.getMemberById(member.getCustomer_id()));
+        System.out.println("살려줘");
+        // mypage.jsp 페이지로 리다이렉트합니다.
+        return "redirect:/mypage";
     }
-
+    
     @GetMapping("/deleteAccount")
-    public String deleteAccountForm(HttpSession session) {
-        MemberVO user = (MemberVO) session.getAttribute("userVO");
-        if (user == null) {
-            return "redirect:/login";
-        }
+    public String deleteAccountForm() {
         return "member/deleteAccount";
     }
 
     @PostMapping("/deleteAccount")
     public String deleteAccount(@RequestParam("userId") String userId, 
                                 @RequestParam("password") String password, 
-                                HttpSession session, 
                                 Model model) {
-        MemberVO user = (MemberVO) session.getAttribute("userVO");
-        if (user == null) {
-            return "redirect:/login";
-        }
-
         try {
             boolean success = memberService.deleteAccount(userId, password);
             if (success) {
-                session.invalidate();
                 model.addAttribute("successMessage", "회원탈퇴가 정상적으로 완료되었습니다.");
-                return "redirect:/login";
+                return "redirect:/logout"; // Assuming there's a logout mechanism
             } else {
-                model.addAttribute("errorMessage", "사용자 ID 또는 암호가 잘못되었습니다.");
+                model.addAttribute("errorMessage", "사용자 ID 또는 암호를 잘못되었습니다.");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,3 +126,10 @@ public class MemberController {
         return "member/deleteAccount";
     }
 }
+
+
+
+
+
+
+
