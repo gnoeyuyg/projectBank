@@ -28,6 +28,9 @@
 <b>ERD</b>	 
 ![ERD](https://github.com/user-attachments/assets/ceac1875-3f57-4f6c-a602-7e593736be1b)
 
+<b>요구사항명세서</b>
+![요구사항명세서](https://github.com/user-attachments/assets/76151340-40f0-445f-9f9b-a71077bc9b73)
+
 <h3>실행 흐름도</h3>
 
 <b>1. 초기 입금 처리</b>
