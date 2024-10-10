@@ -13,7 +13,7 @@
 
 <b>사용언어 및 개발환경</b>
   - JAVA, JavaScript, HTML, CSS, ORACLE, Spring, JQuery, MyBatis
-  - 
+    
 <b>느낀 점</b>
   - 기간을 정해두고 프로젝트를 진행하며 관리하는 방법을 배움
   - 파트 별로 역할 분담의 중요성을 깨달음 ( git 형상관리)
