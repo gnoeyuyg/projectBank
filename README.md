@@ -26,9 +26,11 @@
   - 은행의 기본적인 모든 기능을 사용하도록 기능을 구현 (이체, 계좌 개설, 상품 가입 등)
 
 <b>ERD</b>	 
+
 ![ERD](https://github.com/user-attachments/assets/ceac1875-3f57-4f6c-a602-7e593736be1b)
 
 <b>요구사항명세서</b>
+
 ![요구사항명세서](https://github.com/user-attachments/assets/76151340-40f0-445f-9f9b-a71077bc9b73)
 
 <h3>실행 흐름도</h3>
