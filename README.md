@@ -29,6 +29,7 @@
 ![ERD](https://github.com/user-attachments/assets/ceac1875-3f57-4f6c-a602-7e593736be1b)
 
 <h3>실행 흐름도</h3>
+
 1.초기 입금 처리
   - 입금, 출금, 이체 등의 거래 발생
   - 거래 내역 테이블에 거래 내역 기록
