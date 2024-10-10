@@ -12,7 +12,7 @@
   - 오라클의 테이블을 구성 
 
 <b>사용언어 및 개발환경</b>
-  - JAVA, JavaScript, HTML, CSS, ORACLE
+  - JAVA, JavaScript, HTML, CSS, ORACLE, Spring, JQuery, MyBatis
   - 
 <b>느낀 점</b>
   - 기간을 정해두고 프로젝트를 진행하며 관리하는 방법을 배움
