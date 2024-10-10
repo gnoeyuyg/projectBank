@@ -24,6 +24,7 @@
   - 은행의 기본적인 모든 기능을 사용하도록 기능을 구현 (이체, 계좌 개설, 상품 가입 등)
 
 ERD	 
+![ERD](https://github.com/user-attachments/assets/ceac1875-3f57-4f6c-a602-7e593736be1b)
 
 실행 흐름도
 1.	초기 입금 처리 (있을 경우) 일상적인 거래 처리 
