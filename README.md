@@ -31,7 +31,7 @@
 
 <b>요구사항명세서</b>
 
-![요구사항명세서](https://github.com/user-attachments/assets/76151340-40f0-445f-9f9b-a71077bc9b73)
+![요구사항](https://github.com/user-attachments/assets/639bbd98-ea29-4314-a604-8f94ea63ca3d)
 
 <h3>실행 흐름도</h3>
 
